@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algorithm Metrics</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            text-align: center;
+            margin-top: 50px;
+        }
+        .algorithm-list {
+            list-style-type: none;
+            padding: 0;
+            border-radius: 10px;
+            background-color: #f0f0f0;
+            margin: 0 auto;
+            max-width: 300px;
+        }
+        .algorithm-list li {
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+            cursor: pointer;
+        }
+        .algorithm-list li:last-child {
+            border-bottom: none;
+        }
+        .algorithm-list li:hover {
+            background-color: #ddd;
+        }
+        table {
+            margin-top: 20px;
+            border-collapse: collapse;
+            width: 60%;
+            margin: 0 auto;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .show-all-btn {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 20px;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: background-color 0.3s ease;
+        }
+        .show-all-btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Algorithm Metrics</h1>
+        <ul class="algorithm-list">
+            {% for algorithm, metrics in algorithm_metrics.items() %}
+                <li onclick="showMetrics('{{ algorithm }}', {{ metrics.accuracy }}, {{ metrics.precision }}, {{ metrics.recall }}, {{ metrics.f1score }})">{{ algorithm }}</li>
+            {% endfor %}
+        </ul>
+        <div id="metricsInfo" style="display: none;">
+            <h2 id="selectedAlgorithm"></h2>
+            <p id="accuracy"></p>
+            <p id="precision"></p>
+            <p id="recall"></p>
+            <p id="f1score"></p>
+        </div>
+        <button class="show-all-btn" onclick="showAll()">Show All</button>
+        <table id="metricsTable" style="display: none;">
+            <thead>
+                <tr>
+                    <th>Algorithm</th>
+                    <th>Accuracy</th>
+                    <th>Precision</th>
+                    <th>Recall</th>
+                    <th>F1 Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for algorithm, metrics in algorithm_metrics.items() %}
+                    <tr>
+                        <td>{{ algorithm }}</td>
+                        <td>{{ metrics.accuracy }}</td>
+                        <td>{{ metrics.precision }}</td>
+                        <td>{{ metrics.recall }}</td>
+                        <td>{{ metrics.f1score }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script>
+        function showMetrics(algorithm, accuracy, precision, recall, f1score) {
+            document.getElementById("selectedAlgorithm").innerText = algorithm;
+            document.getElementById("accuracy").innerText = "Accuracy: " + accuracy;
+            document.getElementById("precision").innerText = "Precision: " + precision;
+            document.getElementById("recall").innerText = "Recall: " + recall;
+            document.getElementById("f1score").innerText = "F1 Score: " + f1score;
+            document.getElementById("metricsInfo").style.display = "block";
+            document.getElementById("metricsTable").style.display = "none";
+        }
+
+        function showAll() {
+            document.getElementById("metricsInfo").style.display = "none";
+            document.getElementById("metricsTable").style.display = "table";
+        }
+    </script>
+</body>
+</html>
